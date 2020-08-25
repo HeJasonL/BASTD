@@ -2,9 +2,9 @@
 #'
 #' Analyze OSARI performance data for a single participant
 #'
-#' @param dataframe refers to a dataframe containing participant's performance
+#' @param data refers to a dataframe containing participant's performance
 #'
-#' @return BASTD_analyze will return a dataframe with a single row, containing the performance metrics for all the protocols completed by a given participant.
+#' @return STOPIT_analyze will return a dataframe with a single row, containing the performance metrics for all the protocols completed by a given participant.
 #'
 #' @examples
 #' Examples are currently NA
@@ -19,7 +19,7 @@ STOPIT_analyze <- function(data){
 
   # setup -------------------------------------------------------------------
   stopit_data <- data
-  
+
   # Convert the readout to universal columns names and values ---------------
   ID <- stopit_data$ID
   Block <- stopit_data$block
@@ -29,15 +29,15 @@ STOPIT_analyze <- function(data){
   Signal <- stopit_data$signal
   Correct <- stopit_data$correct
   Response <- stopit_data$respons
-  RT <- stopit_data$rt 
+  RT <- stopit_data$rt
   RE <- stopit_data$re
-  SSD <- stopit_data$ssd 
-  
+  SSD <- stopit_data$ssd
+
   converted_stopit_data <- as.data.frame(cbind(ID, Block, Trial, Stimulus, Signal, Correct, Response, RT, RE, SSD, TrialType)) #create the dataframe used for BASTD_analyze
   analyzed_stopit_data <- BASTD_analyze(converted_stopit_data, 1200) #run the converted_osari_data through BASTD_analyze
-  
+
   return(analyzed_stopit_data)
-  
+
 }
 
 
