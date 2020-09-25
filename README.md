@@ -26,8 +26,8 @@ TrialType (Optional): *Not currently implemented*
 
 Provided the column names are consistent with the above, BASTD_analyze should be able to analyze any dataset from a SST
 
-
-
+OSARI_analyze - Converts data from OSARI to be compatible with BASTD_analyze. Returns analyzed data. See example-data for file structure.
+STOPIT_analyze - Converts data from STOP-IT to be compatible with BASTD_analyze. Returns analyzed data. See example-data for file structure.
 
 Those which visualize are: 
 OSARI_visualize()
@@ -36,8 +36,6 @@ STOPIT_visualize()*
 STOPIT_visualize_all()*
 
 *Visualization capacity for data collected from STOP IT not yet implemented
-
-
 
 
 Please report any issues on the github page 
