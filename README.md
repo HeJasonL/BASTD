@@ -12,6 +12,7 @@ STOPIT_analyze()
 BASTD_analyze - Requires input of data collected from the SST. Given that different versions of the SST have different column names, it is the job of the user to ensure that column names line up with the column names used by BASTD_analyze. 
 
 The column names are: (ID, Block, Trial, Stimulus, Signal, Correct, Response, RT, RE, SSD, TrialType)
+
 ID: Any Character or String
 Trial: Numeric values in increasing order and reset after every block (e.g., 0-64)
 Stimulus: 1 or 2 (for choice-reaction variants of the SST)
