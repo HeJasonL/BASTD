@@ -7,7 +7,9 @@
 #' @return STOPIT_analyze will return a dataframe with a single row, containing the performance metrics for all the protocols completed by a given participant.
 #'
 #' @examples
-#' Examples are currently NA
+#' example_STOP_IT_data <- "https://raw.githubusercontent.com/HeJasonL/BASTD/master/example-data/STOP-IT_raw.csv"
+#' STOP_IT_data <- read.csv(example_STOP_IT_data, header = TRUE) #read the example STOP-IT data
+#' STOPIT_analyze(data = STOP_IT_data) #STOPIT_analyze
 #'
 #' @export
 
@@ -37,7 +39,6 @@ STOPIT_analyze <- function(data){
   analyzed_stopit_data <- BASTD_analyze(converted_stopit_data, 1200) #run the converted_osari_data through BASTD_analyze
 
   return(analyzed_stopit_data)
-
 }
 
 

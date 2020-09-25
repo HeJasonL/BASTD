@@ -29,7 +29,6 @@ OSARI_analyze_all <- function(working_directory){
   write.csv(OSARI_data, file = file.path(working_directory, "analyzed", "analyzed_OSARI_data.csv")) #save the file
 
   return(analyzed_osari_data_combined)
-
 }
 
 

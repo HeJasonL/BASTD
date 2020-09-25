@@ -7,14 +7,17 @@
 #' @return BASTD_analyze will return a dataframe with a single row, containing the performance metrics for all the protocols completed by a given participant.
 #'
 #' @examples
-#' Examples are currently NA
+#'example_OSARI_data <- "https://raw.githubusercontent.com/HeJasonL/BASTD/master/example-data/OSARI_raw_OSARI_2020_Aug_25_1336.txt"
+#'OSARI_data <- read.csv(example_OSARI_data, header = TRUE, sep = "\t")
+#'OSARI_analyze(data = OSARI_data) #OSARI analyze
 #'
 #' @export
 
 OSARI_analyze <- function(data){
+
 # debugging ---------------------------------------------------------------
-  #comment out lines below if not debugging
-# osari_data <- read.csv("OSARI_raw_OSARI_2020_Aug_25_1336.txt", header = TRUE, sep = "\t")
+# example_OSARI_data <- "https://raw.githubusercontent.com/HeJasonL/BASTD/master/example-data/OSARI_raw_OSARI_2020_Aug_25_1336.txt"
+# data <- read.csv(example_OSARI_data, header = TRUE, sep = "\t")
 
 # setup -------------------------------------------------------------------
 osari_data <- data
@@ -36,7 +39,6 @@ converted_osari_data <- as.data.frame(cbind(ID, Block, Trial, Stimulus, Signal, 
 analyzed_osari_data <- BASTD_analyze(converted_osari_data, 1000) #run the converted_osari_data through BASTD_analyze
 
 return(analyzed_osari_data)
-
 }
 
 

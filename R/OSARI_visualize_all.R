@@ -7,28 +7,29 @@
 #' @return OSARI_visualize_all returns a dataframe with rows representing each participant's analyzed data (using the OSARI_analyze function)
 #'
 #' @examples
-#' Examples are currently NA
+#'example_OSARI_data <- "https://raw.githubusercontent.com/HeJasonL/BASTD/master/example-data/OSARI_raw_OSARI_2020_Aug_25_1336.txt"
+#'OSARI_data <- read.csv(example_OSARI_data, header = TRUE, sep = "\t")
+#'OSARI_visualize(OSARI_data) #OSARI visualize
 #'
 #' @export
 
-OSARI_analyze_all <- function(working_directory){
-  # debugging ---------------------------------------------------------------
-  setwd(working_directory)
+OSARI_visualize_all <- function(working_directory){
+  setwd(working_directory) #setwd
+  dir.create("plots") #create a directory called 'plots'
+
   #comment out lines below if not debugging
   OSARI_files <- list.files(pattern = "OSARI") #look for files with the pattern OSARI
 
   for(f in 1:length(OSARI_files)){
     data <- read.csv(OSARI_files[f], header = TRUE, sep = "\t") #read in the file
-    performance <- OSARI_analyze(data) #analyze the file using OSARI_analyze
+    plot <- OSARI_visualize(data) #analyze the file using OSARI_analyze
+    setwd(paste0(working_directory, "/", "plots"))
+    print(paste0("Now plotting file: ", OSARI_files[f]))
+    pdf(paste0(OSARI_files[f],".pdf"), onefile = TRUE, width = 10, height = 5)
+    print(plot)
+    dev.off()
+    setwd(working_directory) #setwd
   }
-
-  analyzed_osari_data_combined <- dplyr::bind_rows(OSARI_analyzed_files)
-
-  dir.create("analyzed") #create a directory called 'analyzed'
-  write.csv(OSARI_data, file = file.path(working_directory, "analyzed", "analyzed_OSARI_data.csv")) #save the file
-
-  return(analyzed_osari_data_combined)
-
 }
 
 

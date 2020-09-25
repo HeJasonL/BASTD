@@ -1,28 +1,53 @@
 #' BASTD_analyze
 #'
-#' Analyze extracted data for from "BATD_extract_NF" or "BATD_extract_OF" for a single participant.
-#' BASTD_analyze is used to analyze the datafrom a single participant. In order to analyze data from multiple participants, we recommend users use "BASTD_analyze_all".
+#'Batch analysis of stop-signal task data or BASTD is a function used to batch analyze SST data
+#'In order to use this function, you may need to change the column name of your output files
+#'The column names required are: ID, Block, Trial, Stimulus, Signal, Correct, Response, RT, RE, SSD
+#'BASTD_analyze is used by OSARI_analyze and STOPIT_analyze
 #'
 #' @param dataframe refers to a dataframe containing participant's performance
 #'
 #' @return BASTD_analyze will return a dataframe with a single row, containing the performance metrics for all the protocols completed by a given participant.
 #'
 #' @examples
-#' Examples are currently NA
+#' See OSARI_analyze or STOPIT_analyze for examples
 #'
 #' @export
 
 BASTD_analyze <- function(data, maximum_go_trial_RT){
 
 # debugging ---------------------------------------------------------------
-# dataframe <- read.csv("STOP-IT_RAW.csv", header = TRUE) #read in thbe raw csv file
-# data <- dataframe
+  # example_OSARI_data <- "https://raw.githubusercontent.com/HeJasonL/BASTD/master/example-data/OSARI_raw_OSARI_2020_Aug_25_1336.txt"
+  # data <- read.csv(example_OSARI_data, header = TRUE, sep = "\t")
+  # ID <- "JH"
+  # Block <- osari_data$block
+  # Trial <- osari_data$trial
+  # TrialType <- osari_data$trialType
+  # Stimulus <- NA
+  # Signal <- osari_data$signal
+  # Correct <- ifelse(osari_data$signal==1 & osari_data$response == 1, 0, 2)
+  # Response <- osari_data$response
+  # RT <- osari_data$rt * 1000
+  # RE <- NA
+  # SSD <- osari_data$ssd * 1000
+  #
+  # converted_osari_data <- as.data.frame(cbind(ID, Block, Trial, Stimulus, Signal, Correct, Response, RT, RE, SSD, TrialType)) #create the dataframe used for BASTD_analyze
+  # data <- converted_osari_data
+  # maximum_go_trial_RT <- 1000
 
 # setup -------------------------------------------------------------------
 data <- data #assign data to 'data'
 maximum_go_trial_RT <- maximum_go_trial_RT
 # names(data)[1:10] <- c("ID", "Block", "Trial","Stimulus","Signal","Correct","Response","RT","RE","SSD") #rename the columns
 id_number <- data$ID[[1]] #store the participant id number
+
+# procedure characteristics ------------------------------------------------
+number_of_blocks <- length(unique(data$Block)) - 2
+number_of_go_trials_per_block <- nrow(data[data$Signal==0 & data$Block==3,])
+number_of_stop_trials_per_block <- nrow(data[data$Signal==1 & data$Block==3,])
+
+procedure_characteristics <- cbind(number_of_blocks, number_of_go_trials_per_block, number_of_stop_trials_per_block)
+#To add: Tracking procedure (fixed/random, start value, step size, minimum/maximum value)
 
 # Analyze performance  ----------------------------------------------------
 
@@ -118,6 +143,19 @@ if(length(accurate_go_trial_RTs) > 1){
   tau_accurate_go <- NA
 }
 
+#Accurate Go trial RT with omissions replaced
+accurate_go_trial_RTs_with_omissions_replaced_with_max_duration <- as.numeric(as.character(all_go_trials_omissions_replaced_with_max_duration$RT))
+if(length(accurate_go_trial_RTs_with_omissions_replaced_with_max_duration) > 1){
+  exGaus_accurate_go_trial_RT_with_omissions_replaced_with_max_duration <- retimes::mexgauss(accurate_go_trial_RTs_with_omissions_replaced_with_max_duration)
+  mu_accurate_go_omissions_replaced_with_max_duration <- exGaus_accurate_go_trial_RT_with_omissions_replaced_with_max_duration[[1]]
+  sigma_accurate_go_omissions_replaced_with_max_duration <- exGaus_accurate_go_trial_RT_with_omissions_replaced_with_max_duration[[2]]
+  tau_accurate_go_omissions_replaced_with_max_duration <- exGaus_accurate_go_trial_RT_with_omissions_replaced_with_max_duration[[3]]
+} else {
+  mu_accurate_go_omissions_replaced_with_max_duration <- NA
+  sigma_accurate_go_omissions_replaced_with_max_duration <- NA
+  tau_accurate_go_omissions_replaced_with_max_duration <- NA
+}
+
 #Inaccurate Go trial RT
 inaccurate_go_trial_RTs <- as.numeric(as.character(all_go_trials$RT[all_go_trials$Response!=0 & all_go_trials$Correct==0]))
 if(length(inaccurate_go_trial_RTs) > 1){
@@ -132,11 +170,12 @@ if(length(inaccurate_go_trial_RTs) > 1){
 }
 
 exGaussian_go_outcomes <- cbind(mu_go, sigma_go, tau_go,
-                                mu_accurate_go, sigma_accurate_go, tau_accurate_go)
+                                mu_accurate_go, sigma_accurate_go, tau_accurate_go,
+                                mu_inaccurate_go, sigma_inaccurate_go, tau_inaccurate_go,
+                                mu_accurate_go_omissions_replaced_with_max_duration, sigma_accurate_go_omissions_replaced_with_max_duration, tau_accurate_go_omissions_replaced_with_max_duration)
 
 
 # Ex-Gaussian parameters of SSRT distribution (W.I.P) ---------------------
-
 
 # SSRT --------------------------------------------------------------------
 unique_ssds <- unique(all_stop_trials$SSD) #list the unique ssds
@@ -163,9 +202,7 @@ SSRT_outcomes <- cbind(go_trial_RT_SSRT_mean_method, accurate_go_trial_SSRT_mean
                        all_go_SSRT_integration_method, correct_go_SSRT_integration_method, correct_go_SSRT_omissions_replaced_integration_method,
                        mean_ssd, mean_presp)
 
-
-
-all_outcomes <- as.data.frame(cbind(id_number, go_trial_performance_outcomes, exGaussian_go_outcomes, SSRT_outcomes))
+all_outcomes <- as.data.frame(cbind(id_number, procedure_characteristics, go_trial_performance_outcomes, exGaussian_go_outcomes, stop_trial_performance_outcomes, SSRT_outcomes))
 row.names(all_outcomes) <- c() #clear the row name
 
 return(all_outcomes)
