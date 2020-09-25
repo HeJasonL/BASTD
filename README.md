@@ -24,10 +24,13 @@ RE: *Not currently implemented*
 SSD: A numerical value for Stop-signal delay in ms (e.g., 250 ms)
 TrialType (Optional): *Not currently implemented*
 
-Provided the column names are consistent with the above, BASTD_analyze should be able to analyze any dataset from a SST
+Provided the column names are consistent with the above, BASTD_analyze should be able to analyze any dataset from a SST. 
+
+Importantly, BASTD_analyze returns an extensive series of columns. 
 
 OSARI_analyze - Converts data from OSARI to be compatible with BASTD_analyze. Returns analyzed data. See example-data for file structure.
 STOPIT_analyze - Converts data from STOP-IT to be compatible with BASTD_analyze. Returns analyzed data. See example-data for file structure.
+
 
 Those which visualize are: 
 OSARI_visualize()
