@@ -7,7 +7,9 @@
 #' @return BASTD_analyze will return a dataframe with a single row, containing the performance metrics for all the protocols completed by a given participant.
 #'
 #' @examples
-#' Examples are currently NA
+#'example_OSARI_data <- "https://raw.githubusercontent.com/HeJasonL/BASTD/master/example-data/OSARI_raw_OSARI_2020_Aug_25_1336.txt"
+#'OSARI_data <- read.csv(example_OSARI_data, header = TRUE, sep = "\t")
+#'OSARI_visualize(OSARI_data) #OSARI visualize
 #'
 #' @export
 

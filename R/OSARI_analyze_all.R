@@ -7,7 +7,6 @@
 #' @return OSARI_analyze_all returns a dataframe with rows representing each participant's analyzed data (using the OSARI_analyze function)
 #'
 #' @examples
-#' Examples are currently NA
 #'
 #' @export
 
