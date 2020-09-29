@@ -12,7 +12,7 @@
 
 OSARI_visualize_all <- function(working_directory){
   setwd(working_directory) #setwd
-  dir.create("plots") #create a directory called 'plots'
+  dir.create("visualized") #create a directory called 'plots'
 
   #comment out lines below if not debugging
   OSARI_files <- list.files(pattern = "OSARI") #look for files with the pattern OSARI
@@ -20,7 +20,7 @@ OSARI_visualize_all <- function(working_directory){
   for(f in 1:length(OSARI_files)){
     data <- read.csv(OSARI_files[f], header = TRUE, sep = "\t") #read in the file
     plot <- OSARI_visualize(data) #analyze the file using OSARI_analyze
-    setwd(paste0(working_directory, "/", "plots"))
+    setwd(paste0(working_directory, "/", "visualized"))
     print(paste0("Now plotting file: ", OSARI_files[f]))
     pdf(paste0(OSARI_files[f],".pdf"), onefile = TRUE, width = 10, height = 5)
     print(plot)

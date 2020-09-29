@@ -25,7 +25,7 @@ OSARI_analyze_all <- function(working_directory){
   analyzed_osari_data_combined <- dplyr::bind_rows(OSARI_analyzed_files)
 
   dir.create("analyzed") #create a directory called 'analyzed'
-  write.csv(OSARI_data, file = file.path(working_directory, "analyzed", "analyzed_OSARI_data.csv")) #save the file
+  write.csv(analyzed_osari_data_combined, file = file.path(working_directory, "analyzed", "analyzed_OSARI_data.csv")) #save the file
 
   return(analyzed_osari_data_combined)
 }

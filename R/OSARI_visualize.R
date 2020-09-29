@@ -22,7 +22,7 @@ OSARI_visualize <- function(data){
   osari_data <- data
 
   # Convert the readout to universal columns names and values ---------------
-  ID <- "JH"
+  ID <- "Example Participant"
   Block <- osari_data$block
   Trial <- osari_data$trial
   TrialType <- osari_data$trialType
@@ -78,8 +78,7 @@ OSARI_visualize <- function(data){
 
 # visualize osari data ----------------------------------------------------
 # Panel a -----------------------------------------------------------------
-  panel_a_descriptives_text <-  paste("Go Omissions (%):", go_omissions,"\n",
-                                      "Go Accuracy (%):", go_accuracy, "\n",
+  panel_a_descriptives_text <-  paste("Go Accuracy (%):", go_accuracy, "\n",
                                       "Mean Go RT (ms):", mean_go_RT, "\n",
                                       "SD Go RT (ms):", sd_go_RT, "\n")
 
@@ -91,19 +90,21 @@ OSARI_visualize <- function(data){
                    panel.border=ggplot2::element_blank(),
                    axis.text = ggplot2::element_blank(),
                    axis.ticks = ggplot2::element_blank(),
-                   axis.title = ggplot2::element_blank())
+                   axis.title = ggplot2::element_blank(),
+                   plot.tag = ggplot2::element_text(face = "bold"))
 
 # Panel b -----------------------------------------------------------------
     panel_b <- ggplot2::ggplot(plotting_data, ggplot2::aes(x=Trial, y=RT, color = Correct)) +
     ggplot2::geom_point() +ggplot2::theme(legend.position="none") +
     ggplot2::geom_vline(xintercept = c(unlist(block_end)), linetype="dotted") +
     ggplot2::scale_color_manual(values = c("red", "blue")) +
-    ggplot2::labs(y = "RTs (ms)", x = "Trial number", tag = "b") +
+    ggplot2::labs(y = "RT (ms)", x = "Trial number", tag = "b") +
     ggplot2::ylim(0,1000) +
     ggplot2::theme(panel.grid.major = ggplot2::element_blank(),
              panel.grid.minor = ggplot2::element_blank(),
              panel.background = ggplot2::element_blank(),
              axis.line = ggplot2::element_line(colour = "black"),
+             plot.tag = ggplot2::element_text(face = "bold"),
              legend.position="none")
 
 # Panel c -----------------------------------------------------------------
@@ -116,6 +117,7 @@ OSARI_visualize <- function(data){
             panel.grid.minor = ggplot2::element_blank(),
             panel.background = ggplot2::element_blank(),
             axis.line = ggplot2::element_line(colour = "black"),
+            plot.tag = ggplot2::element_text(face = "bold"),
             legend.position="none")
 
 
@@ -133,7 +135,8 @@ OSARI_visualize <- function(data){
                    panel.border=ggplot2::element_blank(),
                    axis.text = ggplot2::element_blank(),
                    axis.ticks = ggplot2::element_blank(),
-                   axis.title = ggplot2::element_blank())
+                   axis.title = ggplot2::element_blank(),
+                   plot.tag = ggplot2::element_text(face = "bold"))
 
 
 
@@ -151,6 +154,7 @@ panel_e <- ggplot2::ggplot(plotting_data, ggplot2::aes(x=Trial, y= SSD, color = 
         panel.grid.minor = ggplot2::element_blank(),
         panel.background = ggplot2::element_blank(),
         axis.line = ggplot2::element_line(colour = "black"),
+        plot.tag = ggplot2::element_text(face = "bold"),
         legend.position="none")
 
 # Panel f -----------------------------------------------------------------
@@ -172,11 +176,12 @@ panel_e <- ggplot2::ggplot(plotting_data, ggplot2::aes(x=Trial, y= SSD, color = 
 
    panel_f <- ggplot2::ggplot(ssd_table, ggplot2::aes(x=SSD, y = PRespond)) +
      ggplot2::geom_point(size = 2) + ggplot2::geom_line() +
-     ggplot2::labs(y = "P(Respond)", x = "SSD", tag = "f") +
+     ggplot2::labs(y = "P(Respond)", x = "SSD (ms)", tag = "f") +
      ggplot2::theme(panel.grid.major = ggplot2::element_blank(),
                     panel.grid.minor = ggplot2::element_blank(),
                     panel.background = ggplot2::element_blank(),
                     axis.line = ggplot2::element_line(colour = "black"),
+                    plot.tag = ggplot2::element_text(face = "bold"),
                     legend.position="none")
 
 # Combine plots -----------------------------------------------------------
@@ -194,8 +199,8 @@ figures_combined_with_participant_id_and_title <- ggpubr::annotate_figure(figure
                                                    size = 15))
 
 final <- ggpubr::annotate_figure(figures_combined_with_participant_id_and_title,
-                                  bottom = ggpubr::text_grob("a) Descriptive statistics for Go trials. b) Go trial RTs across trials. c) Density plots for Go trial RTs. d) Descriptive statistics for Stop trials. e) SSD across trials. f) The inhibition function.\n Note: The RT measures (Go RT and SSRT) are estimated with omissions errors replaced. Integration method used to estimate SSRT. See Verbruggen et al., (2019).\nBlue = Succesful Go or Stop trial. Red = Failed Stop trial. Dotted lines represent blocks.",
-                                  size = 8))
+                                  bottom = ggpubr::text_grob("a) Descriptive statistics for Go trials. b) Go trial RT across trials. c) Density plots for Go trial RT. d) Descriptive statistics for Stop trials. e) SSD across trials. f) The inhibition function.\n Note: Integration method used to estimate SSRT. See Verbruggen et al., (2019). Blue = Succesful Go or Stop trial. Red = Failed Stop trial. Dotted lines represent blocks.",
+                                  size = 10))
 
   return(final)
 }
