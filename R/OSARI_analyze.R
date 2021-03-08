@@ -16,8 +16,9 @@
 OSARI_analyze <- function(data){
 
 # debugging ---------------------------------------------------------------
-# example_OSARI_data <- "https://raw.githubusercontent.com/HeJasonL/BASTD/master/example-data/OSARI_raw_OSARI_2020_Aug_25_1336.txt"
-# data <- read.csv(example_OSARI_data, header = TRUE, sep = "\t")
+
+  # example_OSARI_data <- "https://raw.githubusercontent.com/HeJasonL/BASTD/master/example-data/OSARI_raw.txt"
+  # data <- read.csv(example_OSARI_data, header = TRUE, sep = "") #read the example STOP-IT data
 
 # setup -------------------------------------------------------------------
 osari_data <- data
