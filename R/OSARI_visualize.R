@@ -17,13 +17,14 @@ OSARI_visualize <- function(data){
   #debugging ---------------------------------------------------------------
   # example_OSARI_data <- "https://raw.githubusercontent.com/HeJasonL/BASTD/master/example-data/OSARI_raw_OSARI_2020_Aug_25_1336.txt"
   # data <- read.csv(example_OSARI_data, header = TRUE, sep = "\t")
+  #osari_data <- OSARI_data #OSARI_data
 
   # setup -------------------------------------------------------------------
-  osari_data <- data
+  osari_data <- data #OSARI_data
 
   # Convert the readout to universal columns names and values ---------------
   ID <- "Example Participant"
-  Block <- osari_data$block
+  Block <- osari_data$block + osari_data$blockRep #adding these two columns will give you Block
   Trial <- osari_data$trial
   TrialType <- osari_data$trialType
   Stimulus <- NA
@@ -34,9 +35,15 @@ OSARI_visualize <- function(data){
   RE <- NA
   SSD <- osari_data$ssd * 1000
 
+
+
+
+
+
   converted_osari_data <- as.data.frame(cbind(ID, Block, Trial, Stimulus, Signal, Correct, Response, RT, RE, SSD, TrialType)) #create the dataframe used for BASTD_analyze
   converted_osari_data$trial_number <- 1:nrow(converted_osari_data)
   block_end <- list()
+
   for(b in 1:length(unique(converted_osari_data$Block))){
     current_block <- converted_osari_data[converted_osari_data$Block==b,]
     block_end[[b]] <- as.numeric(as.character(current_block$trial_number[nrow(current_block)]))
@@ -51,6 +58,9 @@ OSARI_visualize <- function(data){
   number_of_stop_per_block <- analyzed_osari_data$number_of_stop_trials_per_block
 
   the_procedure <- cbind(number_of_blocks, number_of_go_per_block, number_of_stop_per_block)
+
+  #Convert all relevant columns to numeric first
+  analyzed_osari_data[2:ncol(analyzed_osari_data)] <- lapply(analyzed_osari_data[2:ncol(analyzed_osari_data)], as.numeric)
 
   #Descriptive statistics
   go_omissions <- analyzed_osari_data$omission_error
