@@ -13,26 +13,25 @@ packages <- c("tidyverse", "nlme", "ggpubr", "Hmisc", "plyr", "Rmisc", "retimes"
 
 load.packages(packages)
 
+#To install the retimes package, required for BASTD, you will need to install retimes from the CRAN archive
+#retimes will require you to have Xcode install (see: https://stackoverflow.com/questions/24194409/how-do-i-install-a-package-that-has-been-archived-from-cran)
+install_url("https://cran.r-project.org/src/contrib/Archive/retimes/retimes_0.1-2.tar.gz") #this will install xcode if you do not already have it installed, followed by retimes
+library(retimes) #initialise retimes
 
 # BASTD tester ------------------------------------------------------------
 # install the latest version of the package -------------------------------
 install_github("HeJasonL/BASTD", force = TRUE) #install latest version of BASTD from GitHub
 library(BASTD) #read the package into the library
 
-
-# setup -------------------------------------------------------------------
-
-
 # STOP-IT -----------------------------------------------------------------
 example_STOP_IT_data <- "https://raw.githubusercontent.com/HeJasonL/BASTD/master/example-data/STOP-IT_raw.csv"
 STOP_IT_data <- read.csv(example_STOP_IT_data, header = TRUE) #read the example STOP-IT data
-BASTD_analyze(data = STOP_IT_data, maximum_go_trial_RT = 1200) #BATD_analyze
+BASTD_analyze(data = STOP_IT_data, maximum_go_trial_RT = 1200) #BASTD_analyze
 
 # OSARI  ------------------------------------------------------------------
-example_OSARI_data <- "https://raw.githubusercontent.com/HeJasonL/BASTD/master/example-data/OSARI_raw_OSARI_2020_Aug_25_1336.txt"
-OSARI_data <- read.csv(example_OSARI_data, header = TRUE, sep = "\t")
+example_OSARI_data <- "https://raw.githubusercontent.com/HeJasonL/BASTD/master/example-data/OSARI_raw2.txt"
+OSARI_data <- read.csv(example_OSARI_data, header = TRUE) #read the example OSARI data
 OSARI_analyze(data = OSARI_data) #OSARI analyze
-
 
 
 # Analyze all examples (W.I.P) --------------------------------------------

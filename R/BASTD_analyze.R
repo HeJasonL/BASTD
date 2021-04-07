@@ -17,8 +17,14 @@
 BASTD_analyze <- function(data, maximum_go_trial_RT){
 
 # debugging ---------------------------------------------------------------
-  # example_OSARI_data <- "https://raw.githubusercontent.com/HeJasonL/BASTD/master/example-data/OSARI_raw_OSARI_2020_Aug_25_1336.txt"
-  # data <- read.csv(example_OSARI_data, header = TRUE, sep = "\t")
+  #With STOP IT
+  # example_STOP_IT_data <- "https://raw.githubusercontent.com/HeJasonL/BASTD/master/example-data/STOP-IT_raw.csv"
+  # STOP_IT_data <- read.csv(example_STOP_IT_data, header = TRUE) #read the example STOP-IT data
+  # data <- STOP_IT_data
+
+
+  #WITH OSARI
+  # osari_data <- read.csv(here("example-data", "OSARI_raw2.txt"), header = TRUE, sep = "")
   # ID <- "JH"
   # Block <- osari_data$block
   # Trial <- osari_data$trial
@@ -27,24 +33,39 @@ BASTD_analyze <- function(data, maximum_go_trial_RT){
   # Signal <- osari_data$signal
   # Correct <- ifelse(osari_data$signal==1 & osari_data$response == 1, 0, 2)
   # Response <- osari_data$response
-  # RT <- osari_data$rt * 1000
+  # RT <- suppressWarnings(as.numeric(osari_data$rt) * 1000)
   # RE <- NA
-  # SSD <- osari_data$ssd * 1000
-  #
+  # SSD <- suppressWarnings(as.numeric(osari_data$ssd) * 1000)
   # converted_osari_data <- as.data.frame(cbind(ID, Block, Trial, Stimulus, Signal, Correct, Response, RT, RE, SSD, TrialType)) #create the dataframe used for BASTD_analyze
-  # data <- converted_osari_data
-  # maximum_go_trial_RT <- 1000
+  #
+  #  data <- converted_osari_data
+  #  maximum_go_trial_RT <- 1000
+
+
+
 
 # setup -------------------------------------------------------------------
 data <- data #assign data to 'data'
 maximum_go_trial_RT <- maximum_go_trial_RT
-# names(data)[1:10] <- c("ID", "Block", "Trial","Stimulus","Signal","Correct","Response","RT","RE","SSD") #rename the columns
+names(data)[1:10] <- c("ID", "Block", "Trial","Stimulus","Signal","Correct","Response","RT","RE","SSD") #rename the columns
+
 id_number <- data$ID[[1]] #store the participant id number
 
 # procedure characteristics ------------------------------------------------
-number_of_blocks <- length(unique(data$Block)) - 2
-number_of_go_trials_per_block <- nrow(data[data$Signal==0 & data$Block==3,])
-number_of_stop_trials_per_block <- nrow(data[data$Signal==1 & data$Block==3,])
+
+# procedure characteristics, assuming that the data is STOP-IT data
+  #note, below, it is also assumed that there are equal go/stop trialas across blocks
+number_of_blocks <- length(unique(data$Block))
+number_of_go_trials_per_block <- nrow(data[data$Signal==0 & data$Block==0,])
+number_of_stop_trials_per_block <- nrow(data[data$Signal==1 & data$Block==0,])
+
+
+# procedure characteristics if data is from OSARI
+if("testBlocks" %in% data$TrialType){ #A way to check whether the data is OSARI data is to see whether testBlocks exists
+  number_of_blocks <- length(unique(data$TrialType))
+  number_of_go_trials_per_block <- nrow(data[data$Signal==0 & data$Block==0 & data$TrialType=="testBlocks",])
+  number_of_stop_trials_per_block <- nrow(data[data$Signal==1  & data$Block==0 & data$TrialType=="testBlocks",])
+}
 
 procedure_characteristics <- cbind(number_of_blocks, number_of_go_trials_per_block, number_of_stop_trials_per_block)
 #To add: Tracking procedure (fixed/random, start value, step size, minimum/maximum value)
