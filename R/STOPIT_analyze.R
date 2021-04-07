@@ -14,10 +14,6 @@
 #' @export
 
 STOPIT_analyze <- function(data){
-  # debugging ---------------------------------------------------------------
-  #comment out lines below if not debugging
-  # example_STOP_IT_data <- "https://raw.githubusercontent.com/HeJasonL/BASTD/master/example-data/STOP-IT_raw.csv"
-  # data <- read.csv(example_STOP_IT_data, header = TRUE) #read the example STOP-IT data
 
   # setup -------------------------------------------------------------------
   stopit_data <- data

@@ -11,10 +11,7 @@
 #' @export
 
 OSARI_analyze_all <- function(working_directory){
-  # debugging ---------------------------------------------------------------
-  setwd(working_directory)
 
-  #comment out lines below if not debugging
   OSARI_files <- list.files(pattern = "OSARI") #look for files with the pattern OSARI
   OSARI_analyzed_files <- list() #create a list for the analyzed OSARI files
 

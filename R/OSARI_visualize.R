@@ -14,10 +14,6 @@
 #' @export
 
 OSARI_visualize <- function(data){
-  #debugging ---------------------------------------------------------------
-  # example_OSARI_data <- "https://raw.githubusercontent.com/HeJasonL/BASTD/master/example-data/OSARI_raw.txt"
-  # data <- read.csv(example_OSARI_data, header = TRUE, sep = "")
-  # osari_data <- OSARI_data #OSARI_data
 
   # setup -------------------------------------------------------------------
   osari_data <- data #OSARI_data

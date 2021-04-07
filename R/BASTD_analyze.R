@@ -15,35 +15,6 @@
 #' @export
 
 BASTD_analyze <- function(data, maximum_go_trial_RT){
-
-# debugging ---------------------------------------------------------------
-  #With STOP IT
-  # example_STOP_IT_data <- "https://raw.githubusercontent.com/HeJasonL/BASTD/master/example-data/STOP-IT_raw.csv"
-  # STOP_IT_data <- read.csv(example_STOP_IT_data, header = TRUE) #read the example STOP-IT data
-  # data <- STOP_IT_data
-
-
-  #WITH OSARI
-  # osari_data <- read.csv(here("example-data", "OSARI_raw2.txt"), header = TRUE, sep = "")
-  # ID <- "JH"
-  # Block <- osari_data$block
-  # Trial <- osari_data$trial
-  # TrialType <- osari_data$trialType
-  # Stimulus <- NA
-  # Signal <- osari_data$signal
-  # Correct <- ifelse(osari_data$signal==1 & osari_data$response == 1, 0, 2)
-  # Response <- osari_data$response
-  # RT <- suppressWarnings(as.numeric(osari_data$rt) * 1000)
-  # RE <- NA
-  # SSD <- suppressWarnings(as.numeric(osari_data$ssd) * 1000)
-  # converted_osari_data <- as.data.frame(cbind(ID, Block, Trial, Stimulus, Signal, Correct, Response, RT, RE, SSD, TrialType)) #create the dataframe used for BASTD_analyze
-  #
-  #  data <- converted_osari_data
-  #  maximum_go_trial_RT <- 1000
-
-
-
-
 # setup -------------------------------------------------------------------
 data <- data #assign data to 'data'
 maximum_go_trial_RT <- maximum_go_trial_RT
