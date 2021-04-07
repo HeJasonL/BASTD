@@ -15,16 +15,16 @@
 
 OSARI_visualize <- function(data){
   #debugging ---------------------------------------------------------------
-  # example_OSARI_data <- "https://raw.githubusercontent.com/HeJasonL/BASTD/master/example-data/OSARI_raw_OSARI_2020_Aug_25_1336.txt"
-  # data <- read.csv(example_OSARI_data, header = TRUE, sep = "\t")
-  #osari_data <- OSARI_data #OSARI_data
+  # example_OSARI_data <- "https://raw.githubusercontent.com/HeJasonL/BASTD/master/example-data/OSARI_raw.txt"
+  # data <- read.csv(example_OSARI_data, header = TRUE, sep = "")
+  # osari_data <- OSARI_data #OSARI_data
 
   # setup -------------------------------------------------------------------
   osari_data <- data #OSARI_data
 
   # Convert the readout to universal columns names and values ---------------
   ID <- "Example Participant"
-  Block <- osari_data$block + osari_data$blockRep #adding these two columns will give you Block
+  Block <- osari_data$block  #adding these two columns will give you Block
   Trial <- osari_data$trial
   TrialType <- osari_data$trialType
   Stimulus <- NA
@@ -36,17 +36,27 @@ OSARI_visualize <- function(data){
   SSD <- osari_data$ssd * 1000
 
 
-
-
-
-
   converted_osari_data <- as.data.frame(cbind(ID, Block, Trial, Stimulus, Signal, Correct, Response, RT, RE, SSD, TrialType)) #create the dataframe used for BASTD_analyze
   converted_osari_data$trial_number <- 1:nrow(converted_osari_data)
   block_end <- list()
 
+
+  unique_blockTypes <- unique(converted_osari_data$TrialType)
+
+  #OSARI's block column is the repetition of that block for the given trial type (or block type), rather than a continuous running value
+  #The code below turns it into a continuing running value
+  continuous_blocks <- list()
+  for(t in 1:length(unique_blockTypes)){
+    current_block_type <- converted_osari_data[converted_osari_data$TrialType == unique_blockTypes[t],]
+    continuous_blocks[[t]] <- rep(t, nrow(current_block_type))
+  }
+
+  converted_osari_data$Block <- unlist(continuous_blocks) + as.numeric(converted_osari_data$Block)
+
+  block_end <- list()
   for(b in 1:length(unique(converted_osari_data$Block))){
     current_block <- converted_osari_data[converted_osari_data$Block==b,]
-    block_end[[b]] <- as.numeric(as.character(current_block$trial_number[nrow(current_block)]))
+    block_end[b] <- as.numeric(as.character(current_block$trial_number[nrow(current_block)]))
   }
 
 # analyze osari_data ------------------------------------------------------

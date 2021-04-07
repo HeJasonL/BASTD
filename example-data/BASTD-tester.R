@@ -29,10 +29,12 @@ STOP_IT_data <- read.csv(example_STOP_IT_data, header = TRUE) #read the example 
 BASTD_analyze(data = STOP_IT_data, maximum_go_trial_RT = 1200) #BASTD_analyze
 
 # OSARI  ------------------------------------------------------------------
-example_OSARI_data <- "https://raw.githubusercontent.com/HeJasonL/BASTD/master/example-data/OSARI_raw2.txt"
-OSARI_data <- read.csv(example_OSARI_data, header = TRUE) #read the example OSARI data
+example_OSARI_data <- "https://raw.githubusercontent.com/HeJasonL/BASTD/master/example-data/OSARI_raw.txt"
+OSARI_data <- read.csv(example_OSARI_data, header = TRUE, sep = "") #read the example OSARI data
 OSARI_analyze(data = OSARI_data) #OSARI analyze
 
 
-# Analyze all examples (W.I.P) --------------------------------------------
-# OSARI_analyze_all("~/Dropbox/Documents/Work/GitHub/BASTD/example-data") #OSARI analyze all
+# OSARI visualized --------------------------------------------------------
+OSARI_visualize(data = OSARI_data)
+
+
